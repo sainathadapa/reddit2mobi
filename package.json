@@ -1,0 +1,28 @@
+{
+  "name": "reddit2html",
+  "version": "0.1.0",
+  "description": "Simple utility to convert a reddit post into simple bare-bones html page, meant for converting into a epub/mobi.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/sainathadapa/reddit2mobi.git"
+  },
+  "keywords": [
+    "reddit",
+    "html",
+    "epub",
+    "mobi"
+  ],
+  "author": "Sainath Adapa <adapasainath@gmail.com> (https://github.com/sainathadapa)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/sainathadapa/reddit2mobi/issues"
+  },
+  "homepage": "https://github.com/sainathadapa/reddit2mobi",
+  "dependencies": {
+    "unescape": "^0.1.1"
+  }
+}
