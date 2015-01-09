@@ -4,7 +4,7 @@ var http = require('http'),
 url = require('url'),
 unescp = require('unescape'); //to unescape html text in the json
 
-var t1Parse, mainParse;
+var t1Parse, mainParse, runner;
 
 t1Parse = function(t1node, level) {
 	var textToWrite = unescp(t1node.body_html);
