@@ -4,10 +4,12 @@ reddit2mobi
 This project helps to export a reddit post into a mobi/epub via html.
 
 # Instructions
-- Install [NodeJS](http://nodejs.org/)
-- Install [Unescape](https://www.npmjs.org/package/unescape)
+- Install [NodeJS](http://nodejs.org/) and [npm](https://www.npmjs.com/)
+- Install this module using npm
+	- npm install reddit2html
+	- npm install git://github.com/sainathadapa/reddit2mobi.git
 - Install [Calibre](http://calibre-ebook.com/download)
-- Run the reddit2html.js script. Pass the url of the reddit post as an argument. Optionally, pass the depth (integer) to limit the maximum depth of subtrees in the thread.
+- Run the reddit2html. Pass the url of the reddit post as an argument. Optionally, pass the depth (integer) to limit the maximum depth of subtrees in the thread.
   - Usage: `nodejs reddit2html.js url depth > out.html`
 - Convert the generated html into epub/mobi using the ebook-convert from Calibre.
   - Usage: `ebook-convert in.html out.mobi`

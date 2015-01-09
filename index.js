@@ -4,34 +4,7 @@ var http = require('http'),
 url = require('url'),
 unescp = require('unescape'); //to unescape html text in the json
 
-var t1Parse, mainParse, mainAuthor;
-
-var urlPath = process.argv[2];
-var depth = process.argv[3];
-var urlParse =  url.parse(urlPath);
-
-if(urlParse.protocol === 'https') {
-	urlParse.hostname.replace("https", "http"); //changing the protocol from https to http
-}
-
-//json api endpoint
-var queryPath = urlParse.path.replace(/\/$/,'.json');
-if(queryPath.indexOf(".json") === -1) {
-	queryPath += '.json';
-}
-
-queryPath += '?sort=confidence'; //sorting by best
-if(depth !== undefined) {
-	queryPath += '&depth=' + depth; //depth parameter
-}
-
-var requestObj = {
-	hostname: urlParse.hostname,
-	path: queryPath,
-	headers: {
-		'User-Agent': 'reddit to mobi script'
-	}
-};
+var t1Parse, mainParse;
 
 t1Parse = function(t1node, level) {
 	var textToWrite = unescp(t1node.body_html);
@@ -56,9 +29,7 @@ mainParse = function(children, level) {
 	console.log('</ul>');
 };
 
-
-
-http.get(requestObj, function (response) {
+runner = function(response) {
 	response.setEncoding('utf8');
 	var str = '';
 
@@ -82,4 +53,39 @@ http.get(requestObj, function (response) {
 		console.log('</body>');
 		console.log('</html>');
 	});
-});
+}
+
+
+
+var reddit2html = function(urlPath,depth) {
+
+	var mainAuthor;
+
+	var urlParse =  url.parse(urlPath);
+	if(urlParse.protocol === 'https') {
+		urlParse.hostname.replace("https", "http"); //changing the protocol from https to http
+	}
+
+	//json api endpoint
+	var queryPath = urlParse.path.replace(/\/$/,'.json');
+	if(queryPath.indexOf(".json") === -1) {
+		queryPath += '.json';
+	}
+
+	queryPath += '?sort=confidence'; //sorting by best
+	if(depth !== undefined) {
+		queryPath += '&depth=' + depth; //depth parameter
+	}
+
+	var requestObj = {
+		hostname: urlParse.hostname,
+		path: queryPath,
+		headers: {
+			'User-Agent': 'reddit to mobi script'
+		}
+	};
+
+	http.get(requestObj, runner);
+}
+
+module.exports = reddit2html
