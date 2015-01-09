@@ -6,7 +6,7 @@ unescp = require('unescape'); //to unescape html text in the json
 
 var t1Parse, mainParse, runner;
 
-t1Parse = function(t1node, level) {
+t1Parse = function(t1node, level, mainAuthor) {
 	var textToWrite = unescp(t1node.body_html);
 	if(t1node.author == mainAuthor) {
 		textToWrite = 'Author: ' + textToWrite;
@@ -19,7 +19,7 @@ t1Parse = function(t1node, level) {
 };
 
 
-mainParse = function(children, level) {
+mainParse = function(children, level, mainAuthor) {
 	console.log('<ul>');
 	for ( var i = 0; i < children.length; i++) {
 		if (children[i].kind === 't1') {
@@ -29,7 +29,7 @@ mainParse = function(children, level) {
 	console.log('</ul>');
 };
 
-runner = function(response) {
+runner = function(response, mainAuthor) {
 	response.setEncoding('utf8');
 	var str = '';
 
@@ -49,7 +49,7 @@ runner = function(response) {
 		console.log('<head><title>' + pageTitle + '</title></head>');
 		console.log('<body>');
 		console.log('<p class=title>' + headerText + '</p>');
-		mainParse(main_node, 0);
+		mainParse(main_node, 0, mainAuthor);
 		console.log('</body>');
 		console.log('</html>');
 	});
@@ -59,7 +59,7 @@ runner = function(response) {
 
 var reddit2html = function(urlPath,depth) {
 
-	var mainAuthor;
+	var mainAuthor
 
 	var urlParse =  url.parse(urlPath);
 	if(urlParse.protocol === 'https') {
@@ -85,7 +85,9 @@ var reddit2html = function(urlPath,depth) {
 		}
 	};
 
-	http.get(requestObj, runner);
+	http.get(requestObj, function(response) {
+		runner(response, mainAuthor);
+	});
 }
 
 module.exports = reddit2html
