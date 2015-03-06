@@ -67,15 +67,27 @@ var reddit2html = function(urlPath,depth) {
 	}
 
 	//json api endpoint
-	var queryPath = urlParse.path.replace(/\/$/,'.json');
+	var queryPath = urlParse.pathname.replace(/\/$/,'.json');
 	if(queryPath.indexOf(".json") === -1) {
 		queryPath += '.json';
 	}
 
-	queryPath += '?sort=confidence'; //sorting by best
-	if(depth !== undefined) {
-		queryPath += '&depth=' + depth; //depth parameter
+	if(urlParse.search === null) {
+		urlParse.search = '?';
 	}
+
+	if(urlParse.search.indexOf("sort=") === -1) {
+		if(urlParse.search.indexOf('?') !== -1) {
+			urlParse.search += '&'; //sorting by best
+		}
+		urlParse.search += 'sort=confidence'; //sorting by best
+	}
+
+	if( (depth !== undefined) && (urlParse.search.indexOf("depth=") === -1) ) {
+		urlParse.search += '&depth=' + depth; //depth parameter
+	}
+
+	queryPath += urlParse.search;
 
 	var requestObj = {
 		hostname: urlParse.hostname,
